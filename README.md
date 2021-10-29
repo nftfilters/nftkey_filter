@@ -9,3 +9,6 @@ How to use in Chrome:
   * opacity
 
 All parameters are optional. Example: https://nftkey.app/collections/binancebullsoc/?minRank=500&maxRank=200
+
+Result:
+![image](https://user-images.githubusercontent.com/93408926/139509700-ac6f0eff-f722-409e-b2fe-638685d59dda.png)
