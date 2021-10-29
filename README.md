@@ -2,7 +2,7 @@
 How to use in Chrome:
 * install https://www.tampermonkey.net/
 * create new script in Tampermonkey
-* paste nftkey_rarity_filter.js and save
+* paste code from nftkey_rarity_filter.js and save
 * open an NFTKEY collection with additional parameters:
   * minRank
   * maxRank
