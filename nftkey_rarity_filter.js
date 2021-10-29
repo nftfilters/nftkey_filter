@@ -13,12 +13,9 @@
 (function() {
     'use strict';
 
-    var params = new window.URLSearchParams(window.location.search);
-    var minRank = params.get("minRank") != null ? parseInt(params.get("minRank")): 9999999;
-    var maxRank = params.get("maxRank") != null ? parseInt(params.get("maxRank")) : 0;
-    var opacity = params.get("opacity") != null ? params.get("opacity") : '0.15';
-
+    var opacity = null;
     var timeout = null;
+
     $("body").on('DOMSubtreeModified', ".css-yezj2x", function() {
         if(timeout != null) {
             clearTimeout(timeout);
@@ -26,6 +23,11 @@
         timeout = setTimeout(function() {
             $(".css-1l1yvyp").filter(function () {
                 try {
+                    var params = new window.URLSearchParams(window.location.search);
+                    var minRank = params.get("minRank") != null ? parseInt(params.get("minRank")): 9999999;
+                    var maxRank = params.get("maxRank") != null ? parseInt(params.get("maxRank")) : 0;
+                    opacity = params.get("opacity") != null ? params.get("opacity") : '0.15';
+
                     var rank = this.textContent.match("Rarity\\srank\\s\\d{1,4}\\D")[0].match("\\d{1,4}")[0];
                     console.log(minRank + " " + rank + " " + maxRank);
                     return rank > minRank || rank < maxRank;
@@ -33,6 +35,6 @@
                     return false;
                 }
             }).css('opacity', opacity);
-        }, 500);
+        }, 150);
     });
 })();
