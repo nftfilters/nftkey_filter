@@ -17,4 +17,4 @@ All parameters are optional. Example: https://nftkey.app/collections/binancebull
 
 **Removing items by using 0 opacity feature is not working reliably with NFTKEY site trait filter**
 
-## You can donate to the following BEP20 address if you like NFTKEY filter: 0x7Ca814eBb658c4550CD7c3fAFc0D73a33e3c6C7D (BEP20)
+You can donate to the following BEP20 address if you like NFTKEY filter: 0x7Ca814eBb658c4550CD7c3fAFc0D73a33e3c6C7D (BEP20)
