@@ -8,7 +8,9 @@ How to use in Chrome:
   * maxRank
   * minPrice
   * maxPrice
-  * opacity (default is 0.15, 0.0 or 0 removes the element from the list)
+  * opacity (default is 0.15, 0.0 or 0 removes the item from the list)
+
+*Removing items with 0 opacity is not working with the trait filter currently*
 
 All parameters are optional. Example: https://nftkey.app/collections/binancebullsoc/?minRank=500&maxRank=200
 
