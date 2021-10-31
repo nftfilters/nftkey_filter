@@ -13,7 +13,6 @@
 (function() {
     'use strict';
 
-    var opacity = null;
     var timeout = null;
 
     $("body").on('DOMSubtreeModified', ".css-yezj2x", function() {
@@ -21,20 +20,106 @@
             clearTimeout(timeout);
         }
         timeout = setTimeout(function() {
-            $(".css-1l1yvyp").filter(function () {
-                try {
-                    var params = new window.URLSearchParams(window.location.search);
-                    var minRank = params.get("minRank") != null ? parseInt(params.get("minRank")): 9999999;
-                    var maxRank = params.get("maxRank") != null ? parseInt(params.get("maxRank")) : 0;
-                    opacity = params.get("opacity") != null ? params.get("opacity") : '0.15';
+            var params = new window.URLSearchParams(window.location.search);
+            var minRank = parseFloatParam(params, "minRank");
+            var maxRank = parseFloatParam(params, "maxRank");
+            var minPrice = parseFloatParam(params, "minPrice");
+            var maxPrice = parseFloatParam(params, "maxPrice");
+            var opacity = parseFloatParam(params, "opacity");
+            if(opacity == null) opacity = 0.15;
 
-                    var rank = this.textContent.match("Rarity\\srank\\s\\d{1,4}\\D")[0].match("\\d{1,4}")[0];
-                    console.log(minRank + " " + rank + " " + maxRank);
-                    return rank > minRank || rank < maxRank;
+            var items = $(".css-1l1yvyp").filter(function () {
+                try {
+                    var rank = null;
+                    try {
+                        if(minRank != null || maxRank != null) {
+                            if(!this.textContent.includes("Rarity rank pending")) {
+                                rank = parseFloat(this.textContent.match("Rarity\\srank\\s\\d{1,4}\\D")[0].match("\\d{1,4}")[0]);
+                            }
+                        }
+                    } catch (e) {
+                        console.log("Failed to parse item rank, please create an issue in github: https://github.com/nftfilters/nftkey_rarity_filter");
+                    }
+
+                    var price = null;
+                    try {
+                        if(minPrice != null || maxPrice != null) {
+                            if(!this.textContent.includes("Not for sale")) {
+                                var priceString = this.textContent.match("(Price|Highest bid|Last sell)\\S+ BNB")[0];
+                                if(priceString.includes("k")) {
+                                    var digits = 0;
+                                    if(priceString.includes(".")) {
+                                        digits = priceString.indexOf("k") - priceString.indexOf(".") - 1;
+                                    }
+                                    var replacement;
+                                    switch(digits) {
+                                        case 0: replacement = "000"; break;
+                                        case 1: replacement = "00"; break;
+                                        case 2: replacement = "0"; break;
+                                    }
+                                    priceString = priceString.replace("k", replacement).replace(".", "");
+                                }
+                                price = parseFloat(priceString.match("\\d+\\.*\\d*")[0]);
+                            } else {
+                                return false;
+                            }
+                        }
+                    } catch (e) {
+                        console.log("Failed to parse item price, please create an issue in github: https://github.com/nftfilters/nftkey_rarity_filter");
+                    }
+
+                    return (rank != null && (rank > minRank || rank < maxRank)) || (price != null && (price > maxPrice || price < minPrice));
                 } catch (e) {
                     return false;
                 }
-            }).css('opacity', opacity);
-        }, 150);
+            });
+
+            if(opacity == 0) {
+                items.width(0).height(0).css('padding', 0).css('margin', 0);
+                $(".css-v92fmm").css('min-height', 0);
+            } else {
+                items.css('opacity', opacity);
+            }
+
+            var counter = getCookie("nftkey_rarity_filter_counter");
+            if(counter != null) {
+                counter = parseInt(counter);
+            }
+            if(counter == null) {
+                setCookie("nftkey_rarity_filter_counter", 1);
+            } else if(counter < 100) {
+                setCookie("nftkey_rarity_filter_counter", counter + 1);
+            } else if(counter == 100) {
+                setCookie("nftkey_rarity_filter_counter", counter + 1);
+                prompt("You can donate to the BEP20 address below if you like NFTKEY filter.\n\nYou will never see this message again but you can find the address in the filter's source code later.", "0x7Ca814eBb658c4550CD7c3fAFc0D73a33e3c6C7D (BEP20)");
+            }
+            console.log(counter);
+
+            timeout = null;
+        }, 0);
     });
 })();
+
+function parseFloatParam(params, param) {
+    if(params.has(param)) {
+        var floatParam = parseFloat(params.get(param));
+        if(isNaN(floatParam)) alert("Failed to parse " + param);
+        else return floatParam;
+    }
+    return null;
+}
+
+function setCookie(cName, cValue) {
+    document.cookie = cName + "=" + cValue;
+}
+
+function getCookie(cName) {
+      const name = cName + "=";
+      const cDecoded = decodeURIComponent(document.cookie);
+      const cArr = cDecoded .split('; ');
+      let res = null;
+      cArr.forEach(val => {
+          if (val.indexOf(name) === 0) res = val.substring(name.length);
+      });
+      return res;
+}
