@@ -81,20 +81,6 @@
                 items.css('opacity', opacity);
             }
 
-            var counter = getCookie("nftkey_rarity_filter_counter");
-            if(counter != null) {
-                counter = parseInt(counter);
-            }
-            if(counter == null) {
-                setCookie("nftkey_rarity_filter_counter", 1);
-            } else if(counter < 100) {
-                setCookie("nftkey_rarity_filter_counter", counter + 1);
-            } else if(counter == 100) {
-                setCookie("nftkey_rarity_filter_counter", counter + 1);
-                prompt("You can donate to the BEP20 address below if you like NFTKEY filter.\n\nYou will never see this message again but you can find the address in the filter's source code later.", "0x7Ca814eBb658c4550CD7c3fAFc0D73a33e3c6C7D (BEP20)");
-            }
-            console.log(counter);
-
             timeout = null;
         }, 0);
     });
@@ -107,19 +93,4 @@ function parseFloatParam(params, param) {
         else return floatParam;
     }
     return null;
-}
-
-function setCookie(cName, cValue) {
-    document.cookie = cName + "=" + cValue;
-}
-
-function getCookie(cName) {
-      const name = cName + "=";
-      const cDecoded = decodeURIComponent(document.cookie);
-      const cArr = cDecoded .split('; ');
-      let res = null;
-      cArr.forEach(val => {
-          if (val.indexOf(name) === 0) res = val.substring(name.length);
-      });
-      return res;
 }
