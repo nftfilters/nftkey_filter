@@ -10,7 +10,7 @@ How to use in Chrome:
   * maxPrice
   * opacity (default is 0.15, 0.0 or 0 removes the item from the list)
 
-*Removing items with 0 opacity is not working with the trait filter currently*
+**Removing items by using 0 opacity feature is not working reliably with NFTKEY site trait filter**
 
 All parameters are optional. Example: https://nftkey.app/collections/binancebullsoc/?minRank=500&maxRank=200
 
