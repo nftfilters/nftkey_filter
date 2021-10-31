@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         NFTKEY rarity filter
+// @name         NFTKEY filter
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  NFTKEY rarity filter
