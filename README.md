@@ -1,4 +1,4 @@
-# nftkey_filter
+# NFTKEY filter
 
 ![image](https://user-images.githubusercontent.com/93408926/139509700-ac6f0eff-f722-409e-b2fe-638685d59dda.png)
 
