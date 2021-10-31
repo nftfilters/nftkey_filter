@@ -2,7 +2,7 @@
 // @name         NFTKEY filter
 // @namespace    http://tampermonkey.net/
 // @version      0.1
-// @description  NFTKEY rarity filter
+// @description  NFTKEY filter
 // @author       You
 // @match        https://nftkey.app/collections/*
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
